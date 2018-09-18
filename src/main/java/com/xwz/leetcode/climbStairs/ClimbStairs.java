@@ -1,6 +1,8 @@
 package com.xwz.leetcode.climbStairs;
 
 
+import com.sun.javafx.css.Combinator;
+
 /**
  * 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
  * <p>
@@ -27,11 +29,12 @@ package com.xwz.leetcode.climbStairs;
 public class ClimbStairs {
 
     /**
-     * 答案
+     * 答案 错误的已经不能用
      *
      * @param n
      * @return
      */
+    @Deprecated
     public long answer(int n) {
         /**
          * - 第0位 ：1+0  1+0*（n-0）
@@ -48,9 +51,9 @@ public class ClimbStairs {
         Long result = 0L;
         for (int i = 0; ; i++) {
 
-            long calNum = i*(n-i*2);
+            long calNum = i * (n - i * 2);
 
-            if(calNum < 0){
+            if (calNum < 0) {
                 break;
             }
             calNum += 1;
@@ -60,29 +63,80 @@ public class ClimbStairs {
         }
         return result.intValue();
     }
+
     /**
-     * 答案
+     * 自己写的 答案
      *
      * @param n
      * @return
      */
-    public long answer2(int n) {
-
-
+    public int answer2(int n) {
         Long result = 0L;
-        for (int i = 0; ; i++) {
-
-            long calNum = i*(n-i*2);
-
-            if(calNum < 0){
+        int m = -1;//上标
+        while (true) {
+            m++;//上标+1
+            int index = n - m;//下标
+            if (index < m) {
                 break;
             }
-            calNum += 1;
-            System.out.println(calNum);
-
-            result += calNum;
+            long comb = combination(index, m);
+//            System.out.println("$$\n C_{" + index + "}^{" + m + "} = " + c+ " \n$$");
+            result += comb;
         }
         return result.intValue();
+    }
+
+
+    /**
+     * 组合C_n^m =\frac{n!}{m!(n-m)!}
+     *
+     * @param index 下标
+     * @param m 上标
+     * @return
+     */
+    public Long combination(int index, int m) {
+        if (m >= index / 2 + 1) {
+            m = index - m;
+        }
+
+        long comb = 1; // 这里把结果先看成 分子
+
+        for (int i = index - m + 1; i <= index; i++) {// 循环m-1次
+            comb *= i;
+            comb /= i-index+m;
+
+        }
+
+        return comb;
+    }
+
+
+    /**
+     * 更快的标准答案
+     * @param n
+     * @return
+     */
+    public int climbStairs(int n) {
+        if (n == 1 || n == 0)
+            return 1;
+        n = n - 1;
+        int result = 0;
+        int zero = 1;
+        int first = 1;
+        while (n > 0) {
+            result = zero + first;
+            zero = first;
+            first = result;
+            n--;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        // C_{40}^5 = 658008
+//        Long aLong = new ClimbStairs().combination(40, 5);
+//        System.out.println(aLong);
+
     }
 
 }
