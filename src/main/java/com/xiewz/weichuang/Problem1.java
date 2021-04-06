@@ -1,5 +1,8 @@
 package com.xiewz.weichuang;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * 题目一：移除重复数
  * 编写代码，移除链表中的重复节点
@@ -14,26 +17,28 @@ package com.xiewz.weichuang;
 public class Problem1 {
 
 
+    public static void main(String[] args) {
+        // 1. 初始化链表节点
+        ListNode head = new ListNode(10);
+        head.add(new ListNode(20))
+                .add(new ListNode(30))
+                .add(new ListNode(30))
+                .add(new ListNode(20))
+                .add(new ListNode(10));
 
-    /**
-     * Definition for singly-linked list
-     */
-    class ListNode {
-        int val;
-        ListNode next;
-        public ListNode(int val) {
-            this.val = val;
-        }
+        // 2. 执行测试
+        ListNode result = new Problem1().remove(head);
+        // 3. 打印结果
+        print(result);
+
     }
 
-    /**
-     * 1.使用 set 装入结点的值,
-     * 2.遍历链表, 如果已经有相同的值, 就删除这个结点
-     */
-    /*public ListNode removeDuplicateNodes(ListNode head) {
-        // 用来保存结点的值
+
+    public ListNode remove(ListNode head) {
+        // 1. 使用 set 来保存结点的值
         Set<Integer> set = new HashSet<>();
         ListNode cur = head;
+        // 2.遍历链表, 如果已经有相同的值, 就删除这个结点
         // 当前结点 cur 的前驱结点. 以便删除
         ListNode prev = null;
         while (cur != null) {
@@ -46,29 +51,32 @@ public class Problem1 {
             cur = cur.next;
         }
         return head;
-    }*/
+    }
 
-    /**
-     * 定义一个 ListNode[], 把结点的 val 看作是下标
-     * 1.当前下标下数组元素为 null, 添加到数组里面
-     * 2.当前下标数组元素不为 null, 就删除当前结点;
-     * 相比于 set 时间空间都好很多
-     * https://blog.csdn.net/weixin_44014218/article/details/111068928
-     */
-    public ListNode removeDuplicateNodes(ListNode head) {
-        ListNode[] nodes = new ListNode[20001];
-        ListNode cur = head;
-        ListNode prev = null;
-        while (cur != null) {
-            if (nodes[cur.val] == null) {
-                nodes[cur.val] = cur;
-                prev = cur;
-            } else {
-                prev.next = cur.next;
-            }
+    public static void print(ListNode listNode){
+        System.out.print("["+listNode.val);
+        ListNode cur = listNode.next;
+        while (cur != null){
+            System.out.print(", "+cur.val);
             cur = cur.next;
         }
-        return head;
+        System.out.println("]");
+    }
+}
+
+/**
+ * 定义链表节点
+ */
+class ListNode {
+    int val;
+    ListNode next;
+    public ListNode(int val) {
+        this.val = val;
+    }
+
+    public ListNode add(ListNode addNode){
+        this.next = addNode;
+        return addNode;
     }
 }
 

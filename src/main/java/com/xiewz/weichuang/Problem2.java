@@ -1,10 +1,7 @@
 package com.xiewz.weichuang;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 题目二：统计数据
@@ -18,23 +15,28 @@ public class Problem2 {
 
     public static void main(String[] args) {
         int[] arr = {9,7,7,9,9,3};
-        new Problem2().uniqueOccurrences(arr);
+        new Problem2().statistics(arr);
     }
 
-    public void uniqueOccurrences(int[] arr) {
+    public void statistics(int[] arr) {
 
+        // 1. 使用map存储结果 key为数组中的值，value为出现的次数
         Map<Integer, Integer> resultMap = new HashMap<>();
+        // 2. 遍历存入，每次存入时取出当前值出现次数进行+1
         for (int elem : arr)
             resultMap.put(elem, resultMap.getOrDefault(elem, 0) + 1);
-        //
-        System.out.println(resultMap);
+        // 3. 打印结果
+        printResult(resultMap);
 
-        System.out.print("在该数组中,");
+
+    }
+
+    private void printResult(Map<Integer, Integer> resultMap) {
+        // 打印结果
+        System.out.print("在该数组中");
         for (Map.Entry<Integer, Integer> entry : resultMap.entrySet()) {
-            System.out.print(String.format("%s出现了%s次，",entry.getKey(),entry.getValue()));
+            System.out.print(String.format("，%s出现了%s次",entry.getKey(),entry.getValue()));
         }
-        // Arrays.stream(arr).collect(Collectors.toMap(x -> x,e->e));
-        // Arrays.stream(arr).collect(Collectors.toMap(x -> x,e->e));
-
+        System.out.println();
     }
 }
